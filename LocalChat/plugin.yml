@@ -1,0 +1,19 @@
+name: LocalChat
+main: DeBePlugins\LocalChat\LocalChat
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ localchat:
+  permission: debe.op.localchat
+  description: DeBe - [LocalChat] - OP
+  usage: /LocalChat <Local>
+
+permissions:
+ debe.op:
+  default: op
+  description: DeBePlugins - OP
+  children:
+   debe.op.localchat:
+    description: DeBe - [LocalChat] - OP

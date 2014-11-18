@@ -1,0 +1,19 @@
+name: ChatMute
+main: DeBePlugins\ChatMute\ChatMute
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ chatmute:
+  permission: debe.op.chatmute
+  description: DeBe - [ChatMute] - OP
+  usage: /ChatMute <Mute|AllMute>
+
+permissions:
+ debe.op:
+  default: op
+  description: DeBePlugins - OP
+  children:
+   debe.op.chatmute:
+    description: DeBe - [ChatMute] - OP

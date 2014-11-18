@@ -1,0 +1,19 @@
+name: ClearEntities
+main: DeBePlugins\ClearEntities\ClearEntities
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ clearentities:
+  permission: debe.op.clearentities
+  description: DeBe - [ClearEntities] - OP
+  usage: /ClearEntities <All|Item|Arrow|Mob> <View|Clear>
+
+permissions:
+ debe.op:
+  default: op
+  description: DeBePlugins - OP
+  children:
+   debe.op.clearentities:
+    description: DeBe - [ClearEntities] - OP

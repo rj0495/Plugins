@@ -1,0 +1,19 @@
+name: ViewLocation
+main: DeBePlugins\ViewLocation\ViewLocation
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ viewlocation:
+  permission: debe.pl.viewlocation
+  description: DeBe - [ViewLocation - Player
+  usage: /ViewLocation <PlayerName>
+
+permissions:
+ debe.pl:
+  default: true
+  description: DeBe - [Plugins - Player
+  children:
+   debe.pl.viewlocation:
+    description: DeBe - [ViewLocation - Player

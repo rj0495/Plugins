@@ -1,0 +1,19 @@
+name: Delivery
+main: DeBePlugins\Delivery\Delivery
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ delivery:
+  permission: debe.pl.delivery
+  description: DeBe - [Delivery - Player
+  usage: /Delivery <PlayerName> <ItemID> <Amount>
+
+permissions:
+ debe.pl:
+  default: true
+  description: DeBe - [Plugins - Player
+  children:
+   debe.pl.delivery:
+    description: DeBe - [Delivery - Player

@@ -1,0 +1,5 @@
+name: WorldInventory
+main: DeBePlugins\WorldInventory\WorldInventory
+version: DeBe
+api: [1.6.0]
+author: DeBe

@@ -1,0 +1,25 @@
+name: Login
+main: DeBePlugins\Login\Login
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ login:
+  permission: debe.pl.login.login
+  description: DeBe - [Login:Login] - Player
+  usage: /Login <Password>
+ register:
+  permission: debe.pl.login.register
+  description: DeBe - [Login:Register] - Player
+  usage: /Register <Pasrword> <Password>
+
+permissions:
+ debe.pl:
+  default: true
+  description: DeBePlugins - Player
+  children:
+   debe.pl.login.login:
+    description: DeBe - [Login:Login] - Player
+   debe.pl.login.register:
+    description: DeBe - [Login:Register] - Player

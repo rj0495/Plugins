@@ -1,0 +1,19 @@
+name: DamageBlock
+main: DeBePlugins\DamageBlock\DamageBlock
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ damageblock:
+  permission: debe.op.damageblock
+  description: DeBe - [DamageBlock] - OP
+  usage: /DamageBlock <Add|Del|Reset|List>
+
+permissions:
+ debe.op:
+  default: op
+  description: DeBePlugins - OP
+  children:
+   debe.op.damageblock:
+    description: DeBe - [DamageBlock] - OP

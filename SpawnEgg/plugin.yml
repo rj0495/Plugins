@@ -1,0 +1,5 @@
+name: SpawnEgg
+main: DeBePlugins\SpawnEgg\SpawnEgg
+version: DeBe
+api: [1.6.0]
+author: DeBe

@@ -1,0 +1,19 @@
+name: EazyCommand
+main: DeBePlugins\EazyCommand\EazyCommand
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ eazycommand:
+  permission: debe.op.EazyCommand
+  description: DeBe - [EazyCommand] - OP
+  usage: /EazyCommand <Add|Del|Reset|List>
+
+permissions:
+ debe.op:
+  default: op
+  description: DeBePlugins - OP
+  children:
+   debe.op.eazycommand:
+    description: DeBe - [EazyCommand] - OP

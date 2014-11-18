@@ -1,0 +1,19 @@
+name: ItemCase
+main: DeBePlugins\ItemCase\ItemCase
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ itemcase:
+  permission: debe.op.itemcase
+  description: DeBe - [ItemCase] - OP
+  usage: /ItemCase <Add|DelReset>
+
+permissions:
+ debe.op:
+  default: op
+  description: DeBePlugins - OP
+  children:
+   debe.op.itemcase:
+    description: DeBe - [ItemCase] - OP

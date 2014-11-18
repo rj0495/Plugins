@@ -1,0 +1,19 @@
+name: Korean
+main: DeBePlugins\Korean\Korean
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ korean:
+  permission: debe.op.korean
+  description: DeBe - [DeBe_Korean] - OP
+  usage: /Korean
+
+permissions:
+ debe.op:
+  default: op
+  description: DeBePlugins - OP
+  children:
+   debe.op.korean:
+    description: DeBe - [Korean] - OP

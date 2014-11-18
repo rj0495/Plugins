@@ -1,0 +1,19 @@
+name: SubInventory
+main: DeBePlugins\SubInventory\SubInventory
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ subinventory:
+  permission: debe.pl.subinventory
+  description: DeBe - [SubInventory - Player
+  usage: /SubInventory
+
+permissions:
+ debe.pl:
+  default: true
+  description: DeBe - [Plugins - Player
+  children:
+   debe.pl.subinventory:
+    description: DeBe - [SubInventory - Player

@@ -1,0 +1,19 @@
+name: ArrowGun
+main: DeBePlugins\ArrowGun\ArrowGun
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ arrowgun:
+  permission: debe.pl.arrowgun
+  description: DeBe - [ArrowGun] - Player
+  usage: /ArrowGun
+
+permissions:
+ debe.pl:
+  default: true
+  description: DeBe's Plugins - Player
+  children:
+   debe.pl.arrowgun:
+    description: DeBe - [ArrowGun] - Player
