@@ -6,14 +6,20 @@ author: DeBe
 
 commands:
  eazycommand:
-  permission: debe.op.EazyCommand
-  description: DeBe - [EazyCommand] - OP
+  permission: debe.eazycommand.cmd
+  description: EazyCommand - Command
   usage: /EazyCommand <Add|Del|Reset|List>
 
 permissions:
- debe.op:
+ debe:
   default: op
-  description: DeBePlugins - OP
+  description: DeBePlugins
   children:
-   debe.op.eazycommand:
-    description: DeBe - [EazyCommand] - OP
+   debe.eazycommand:
+    description: DeBe - [EazyCommand]
+    children:
+      debe.eazycommand.cmd:
+       description: EazyCommand - Command
+      debe.eazycommand.use:
+       default: true
+       description: EazyCommand - Use the shortcut

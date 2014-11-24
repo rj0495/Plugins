@@ -6,14 +6,14 @@ author: DeBe
 
 commands:
  clearentities:
-  permission: debe.op.clearentities
-  description: DeBe - [ClearEntities] - OP
+  permission: debe.clearentities.cmd
+  description: ClearEntities - Command
   usage: /ClearEntities <All|Item|Arrow|Mob> <View|Clear>
 
 permissions:
- debe.op:
+ debe:
   default: op
-  description: DeBePlugins - OP
+  description: DeBePlugins
   children:
-   debe.op.clearentities:
-    description: DeBe - [ClearEntities] - OP
+   debe.clearentities.cmd:
+    description: ClearEntities - Command

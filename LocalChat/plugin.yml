@@ -6,14 +6,16 @@ author: DeBe
 
 commands:
  localchat:
-  permission: debe.op.localchat
-  description: DeBe - [LocalChat] - OP
+  permission: debe.localchat.cmd
+  description: LocalChat - Command
   usage: /LocalChat <Local>
 
 permissions:
  debe.op:
   default: op
-  description: DeBePlugins - OP
+  description: DeBePlugins
   children:
-   debe.op.localchat:
-    description: DeBe - [LocalChat] - OP
+   debe.localchat.cmd:
+    description: LocalChat - Command
+   debe.localchat.hear:
+    description: LocalChat - Hear the chat of far place

@@ -6,14 +6,14 @@ author: DeBe
 
 commands:
  chatmute:
-  permission: debe.op.chatmute
-  description: DeBe - [ChatMute] - OP
+  permission: debe.chatmute.cmd
+  description: ChatMute - Command
   usage: /ChatMute <Mute|AllMute>
 
 permissions:
- debe.op:
+ debe:
   default: op
-  description: DeBePlugins - OP
+  description: DeBePlugins
   children:
-   debe.op.chatmute:
-    description: DeBe - [ChatMute] - OP
+   debe.chatmute.cmd:
+    description: ChatMute - Command

@@ -6,14 +6,16 @@ author: DeBe
 
 commands:
  damageblock:
-  permission: debe.op.damageblock
-  description: DeBe - [DamageBlock] - OP
+  permission: debe.damageblock.cmd
+  description: DamageBlock - Command
   usage: /DamageBlock <Add|Del|Reset|List>
 
 permissions:
- debe.op:
+ debe:
   default: op
-  description: DeBePlugins - OP
+  description: DeBePlugins
   children:
-   debe.op.damageblock:
-    description: DeBe - [DamageBlock] - OP
+   debe.damageblock.cmd:
+    description: DamageBlock - Command
+   debe.damageblock.inv:
+    description: DamageBlock - Invincibility fo DamageBlock

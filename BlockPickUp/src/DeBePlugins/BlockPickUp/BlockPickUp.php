@@ -14,8 +14,8 @@ class BlockPickUp extends PluginBase implements Listener{
 	}
 
 	public function onBlockBreak(BlockBreakEvent $event){
-		if($event->isCancelled()) return;
-		foreach($event->getBlock()->getDrops($event->getItem()) as $i)
+		if($event->isCancelled() || !$event->getPlayer()->hasPermission("debe.blockpickup.use")) return;
+ 		foreach($event->getBlock()->getDrops($event->getItem()) as $i)
 			$event->getPlayer()->getInventory()->addItem(Item::get(...$i));
 	}
 }

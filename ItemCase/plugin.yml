@@ -6,14 +6,18 @@ author: DeBe
 
 commands:
  itemcase:
-  permission: debe.op.itemcase
-  description: DeBe - [ItemCase] - OP
+  permission: debe.itemcase.cmd
+  description: ItemCase - Command
   usage: /ItemCase <Add|DelReset>
 
 permissions:
- debe.op:
+ debe:
   default: op
-  description: DeBePlugins - OP
+  description: DeBePlugins
   children:
-   debe.op.itemcase:
-    description: DeBe - [ItemCase] - OP
+   debe.itemcase.cmd:
+    description: ItemCase - Command
+   debe.itemcase.block:
+    description: ItemCase - Edit block
+   debe.itemcase.spawn:
+    description: ItemCase - Spawn itemcase

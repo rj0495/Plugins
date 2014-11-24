@@ -19,6 +19,7 @@ class WorldInventory extends PluginBase implements Listener{
 
  	public function onPlayerMove(PlayerMoveEvent $event){
 		$p = $event->getPlayer();
+		if(!$p->hasPermission("debe.worldinventory.change")) return;
 		if($p->isCreative()) return;
 		$n = strtolower($p->getName());
  		$wn = strtolower($event->getTo()->getLevel()->getFolderName());
@@ -55,6 +56,7 @@ class WorldInventory extends PluginBase implements Listener{
  	public function onPlayerGameModeChange(PlayerGameModeChangeEvent $event){
  		if($event->isCancelled()) return;
 		$p = $event->getPlayer();
+		if(!$p->hasPermission("debe.worldinventory.change")) return;
 		$n = strtolower($p->getName());
 		$g = $event->getNewGamemode();
  		$wn = strtolower($p->getLevel()->getFolderName());

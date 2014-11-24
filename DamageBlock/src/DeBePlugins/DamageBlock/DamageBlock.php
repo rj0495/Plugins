@@ -25,7 +25,7 @@ class DamageBlock extends PluginBase implements Listener{
 		if(!isset($sub[0])) return false;
 		$db = $this->damageBlock->getAll();
 		$rm = TextFormat::RED . "Usage: /DamageBlock ";
-		$mm = "[ProteckBlock] ";
+		$mm = "[DamageBlock] ";
 		$ik = $this->isKorean();
 		switch(strtolower($sub[0])){
 			case "add":
@@ -104,6 +104,7 @@ class DamageBlock extends PluginBase implements Listener{
 
 	public function DamageBlock(){
 		foreach($this->getServer()->getOnlinePlayers() as $p){
+			if($p->hasPermission("debe.damageblock.inv")) continue;
 			$bb = $p->getBoundingBox();
 			$minX = Math::floorFloat($bb->minX - 0.001);
 			$minY = Math::floorFloat($bb->minY - 0.001);

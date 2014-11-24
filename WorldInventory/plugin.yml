@@ -3,3 +3,12 @@ main: DeBePlugins\WorldInventory\WorldInventory
 version: DeBe
 api: [1.6.0]
 author: DeBe
+
+permissions:
+ debe.op:
+  default: op
+  description: DeBePlugins
+  children:
+   debe.worldinventory.change:
+    default: true
+    description: WorldInventory - Auto change the inventory

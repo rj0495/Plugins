@@ -83,8 +83,11 @@ class Login extends PluginBase implements Listener{
 	}
 
 	public function onPlayerChat(PlayerChatEvent $event){
-		if(!$this->isLogin($p)) $this->sendLogin($p);
-		else $event->setCancelled();
+		$p = $event->getPlayer();
+		if(!$this->isLogin($p)){
+			$this->sendLogin($p);
+			$event->setCancelled();
+		}
 	}
 
 	public function onPlayerMove(PlayerMoveEvent $event){

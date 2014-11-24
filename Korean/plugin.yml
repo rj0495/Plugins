@@ -6,14 +6,14 @@ author: DeBe
 
 commands:
  korean:
-  permission: debe.op.korean
-  description: DeBe - [DeBe_Korean] - OP
+  permission: debe.korean.cmd
+  description: Korean - Command
   usage: /Korean
 
 permissions:
- debe.op:
+ debe:
   default: op
-  description: DeBePlugins - OP
+  description: DeBePlugins
   children:
-   debe.op.korean:
-    description: DeBe - [Korean] - OP
+   debe.korean.cmd:
+    description: Korean - Command

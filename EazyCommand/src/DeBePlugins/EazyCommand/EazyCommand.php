@@ -26,7 +26,7 @@ class EazyCommand extends PluginBase implements Listener{
 		$rm = TextFormat::RED . "Usage: /EazyCommand ";
 		$mm = "[EazyCommand] ";
 		$ik = $this->isKorean();
-		switch(strtolower(array_shift($sub))){
+ 		switch(strtolower(array_shift($sub))){
 			case "add":
 			case "a":
 			case "추가":
@@ -172,6 +172,7 @@ class EazyCommand extends PluginBase implements Listener{
 			$cmd = $event->getCommand();
 			$sender = $event->getSender();
 		}
+		if(!$sender->hasPermission("debe.eazycommand.use")) return false;
 		$arr = explode(" ", $cmd);
 		$all = [];
 		$ps = $this->getServer()->getOnlinePlayers();

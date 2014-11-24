@@ -6,20 +6,19 @@ author: DeBe
 
 commands:
  login:
-  permission: debe.pl.login.login
-  description: DeBe - [Login:Login] - Player
+  permission: debe.login.cmd
+  description: Login - Command
   usage: /Login <Password>
  register:
-  permission: debe.pl.login.register
-  description: DeBe - [Login:Register] - Player
+  permission: debe.login.cmd
+  description: Login - Command
   usage: /Register <Pasrword> <Password>
 
 permissions:
- debe.pl:
-  default: true
-  description: DeBePlugins - Player
+ debe:
+  default: op
+  description: DeBePlugins
   children:
-   debe.pl.login.login:
-    description: DeBe - [Login:Login] - Player
-   debe.pl.login.register:
-    description: DeBe - [Login:Register] - Player
+   debe.login.cmd:
+    default: true;
+    description: Login - Command

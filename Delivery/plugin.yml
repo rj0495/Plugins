@@ -6,14 +6,15 @@ author: DeBe
 
 commands:
  delivery:
-  permission: debe.pl.delivery
-  description: DeBe - [Delivery - Player
+  permission: debe.delivery.cmd
+  description: Delivery - Command
   usage: /Delivery <PlayerName> <ItemID> <Amount>
 
 permissions:
- debe.pl:
-  default: true
-  description: DeBe - [Plugins - Player
+ debe:
+  default: op
+  description: DeBePlugins
   children:
-   debe.pl.delivery:
-    description: DeBe - [Delivery - Player
+   debe.delivery.cmd:
+    default: true
+    description: Delivery - Command

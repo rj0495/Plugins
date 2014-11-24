@@ -12,5 +12,6 @@ class SpawnEgg extends PluginBase implements Listener{
 		$spawnEgg = [15,10,11,12,13,14,16,33,38,39,34,35,37,39,36];
 		foreach($spawnEgg as $se)
 			Block::$creative[] =	[383, $se];
+		Block::$creative[322] =	[22, 0];
 	}
 }

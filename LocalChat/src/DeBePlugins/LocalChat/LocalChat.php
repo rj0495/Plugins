@@ -31,10 +31,11 @@ class LocalChat extends PluginBase implements Listener{
 
 	public function onPlayerChat(PlayerChatEvent $event){
 		$recipients = $event->getRecipients();
+		$p = $event->getPlayer();
 		foreach($recipients as $k => $v){
-			if($v instanceof Player){
-				if($event->getPlayer()->getLevel() !== $v->getLevel() || $event->getPlayer()->distance($v) > $this->distanceChat->get("Local")) unset($recipients[$k]);
-				}
+			if($v instanceof Player && !$v->hasPermission("debe.localchat.hear")){
+				if($p->getLevel() !== $v->getLevel() || $p->distance($v) > $this->distanceChat->get("Local")) unset($recipients[$k]);
+			}
 		}
 		$event->setRecipients($recipients);
 	}

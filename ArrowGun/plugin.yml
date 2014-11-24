@@ -6,14 +6,15 @@ author: DeBe
 
 commands:
  arrowgun:
-  permission: debe.pl.arrowgun
-  description: DeBe - [ArrowGun] - Player
+  permission: debe.arrowgun.cmd
+  description: ArrowGun - Command
   usage: /ArrowGun
 
 permissions:
- debe.pl:
-  default: true
-  description: DeBe's Plugins - Player
+ debe:
+  default: op
+  description: DeBePlugins
   children:
-   debe.pl.arrowgun:
-    description: DeBe - [ArrowGun] - Player
+   debe.arrowgun.cmd:
+   	default: true
+    description: ArrowGun - Command
