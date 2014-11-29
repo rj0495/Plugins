@@ -8,13 +8,14 @@ use pocketmine\command\CommandSender;
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
 use pocketmine\event\Listener;
-use pocketmine\scheduler\CallbackTask;
+use pocketmine\event\player\PlayerInteractEvent;
+use pocketmine\event\player\PlayerRespawnEvent;
+use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
-use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\item\Item;
 use pocketmine\block\Block;
-use pocketmine\level\Position;
+use pocketmine\math\Vector3;
 use pocketmine\network\protocol\AddItemEntityPacket;
 use pocketmine\network\protocol\RemoveEntityPacket;
 use pocketmine\network\protocol\MoveEntityPacket;
@@ -24,9 +25,10 @@ class ItemCase extends PluginBase implements Listener{
 	public function onEnable(){
 		$this->touch = [];
 		$this->item = [];
-		$this->eid = 9999;
+		$this->level = [];
+		$this->time = false;
+		$this->eid = 99999;
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
-		$this->getServer()->getScheduler()->scheduleDelayedRepeatingTask(new CallbackTask([$this,"spawnCase" ]), -1, 100);
 		$this->loadYml();
 	}
 
@@ -84,6 +86,25 @@ class ItemCase extends PluginBase implements Listener{
 				$ic = [];
 				$r = $mm . ($ik ?  " 리셋됨.": " Reset");
 			break;
+			case "respawn":
+			case "리스폰":
+			case "rs":
+			 $this->spawnCase();
+				$r = $mm . ($ik ?  " 아이템 리스폰됨.": " Spawn the Items");
+			break;
+			case "glass":
+			case "g":
+			case "case":
+			case "c":
+			case "유리":
+			case "케이스":
+			 	foreach($this->item as $case => $item){
+					$pos = explode(":", $case);
+					$l = $this->getServer()->getLevelByName($pos[3]);
+					if($l != false) $l->setBlock(new Vector3(...$pos),Block::get(20));
+				}
+				$r = $mm . ($ik ?  " 유리 설치됨.": " Place the Glass");
+			break;
 			default:
 				return false;
 			break;
@@ -98,6 +119,7 @@ class ItemCase extends PluginBase implements Listener{
 
 	public function onPlayerInteract(PlayerInteractEvent $event){
 		$b = $event->getBlock();
+		if($b->getID() !== 20) $b = $b->getSide($event->getFace());
 		$p = $event->getPlayer();
 		$n = $p->getName();
 		$t = $this->touch;
@@ -105,32 +127,19 @@ class ItemCase extends PluginBase implements Listener{
 		$m = "[ItemCase] ";
 		$ik = $this->isKorean();
 		if(isset($t[$n])){
-			if($b->getID() !== 20){
-				$b2 = $b;
-				$pos2 = $this->getPos($b2);
-				$b = $b->getSide($event->getFace());
-			}
 			$pos = $this->getPos($b);
 			$tc = $t[$n];
 			switch($tc["Type"]){
 				case "Add":
 					if(!$this->addCase($pos, $tc["Item"], $tc["Size"])) $m .= $ik ?  "이미 3개가 존재합니다.": "Already 3 ItemCase Here";
-					else $m .= $ik ?  "아이템케이스가 생성되었습니다. \n [" . $pos . "] 아이디 :  " . $tc["Item"] . " 크기 : " . $tc["Size"]: "ItemCase Create \n [" . $pos . "] ID : " . $tc["Item"] . " Size : " . $tc["Size"];
+					else $m .= ($ik ?  "아이템케이스가 생성되었습니다.": "ItemCase Create") . " [$pos]";
 					unset($t[$n]);
 				break;
 				case "Del":
 					if(!isset($ic[$pos])){
-						if(!isset($ic[$pos2])){
-							$m .= $ik ?  "이곳에는 아이템 케이스가 없습니다.": "ItemCase is not exist here";
-						}else{
-							$mn = $ic[$pos2];
-							$m .= ($ik ?  "아이템케이스가 제거되었습니다.": "ItemCase is Delete ") . "\n [" . $pos2 . "] ID : " . $mn[0] . " Size : " . $mn[1];
-							$this->delCase($pos2);
-							unset($t[$n]);
-						}
+						$m .= $ik ?  "이곳에는 아이템 케이스가 없습니다.": "ItemCase is not exist here";
 					}else{
-						$m .= ($ik ?  "아이템케이스가 제거되었습니다.": "ItemCase is Delete ") . "\n [" . $pos2 . "] ID : " . $mn[0] . " Size : " . $mn[1];
-						$mn = $ic[$pos];
+						$m .= ($ik ?  "아이템케이스가 제거되었습니다.": "ItemCase is Delete ") . "[$pos]";
 						$this->delCase($pos);
 						unset($t[$n]);
 					}
@@ -145,6 +154,18 @@ class ItemCase extends PluginBase implements Listener{
  		}
 	}
 
+	public function onPlayerRespawn(PlayerRespawnEvent $event){
+		$this->spawnCase();
+	}
+
+	public function onPlayerMove(PlayerMoveEvent $event){
+		$p = $event->getPlayer();
+		$n = $p->getName();
+		$l = $p->getLevel()->getFolderName();
+		if(!isset($this->level[$n])) $this->level[$n] = $l;
+		elseif($this->level[$n] !== $l) $this->spawnCase();
+	}
+
 	public function onBlockBreak(BlockBreakEvent $event){
 		$this->onBlockEvent($event);
 	}
@@ -156,12 +177,15 @@ class ItemCase extends PluginBase implements Listener{
 	public function onBlockEvent($event){
 		if(isset($this->ic[$this->getPos($event->getBlock())])){
 			if(!$event->getPlayer()->hasPermission("debe.itemcase.block")) $event->setCancelled();
-			if($event->getPlayer()->hasPermission("debe.itemcase.spawn")) $this->spawnCase();
+			if($event->getPlayer()->hasPermission("debe.itemcase.spawn")) $this->spawnCase(true);
 		}
 	} 
 
-	public function spawnCase(){
-		$this->despawnCase();
+	public function spawnCase($time = false){
+		if(!$this->time) $this->time = microtime(true);
+		if($time && time(true) - $this->time < 3) return; 
+		$this->time = time(true);
+ 		$this->despawnCase();
 		foreach($this->ic as $k => $list){
 			$count = 0;
 			foreach($list as $item => $v){

@@ -8,7 +8,7 @@ commands:
  itemcase:
   permission: debe.itemcase.cmd
   description: ItemCase - Command
-  usage: /ItemCase <Add|DelReset>
+  usage: /ItemCase <Add|Del|Reset|Respawn|Glass>
 
 permissions:
  debe:
