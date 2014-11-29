@@ -1,0 +1,33 @@
+name: PVP Manager
+main: DeBePlugins\PVPManager\PVPManager
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ pvp:
+  permission: debe.pvpmanager.pvp.cmd
+  description: PVP Manager - PVP - Command
+  usage: /PVP
+
+ dmg:
+  permission: debe.pvpmanager.dmg.cmd
+  description: PVP Manager - Damage - Command
+  usage: /Dmg
+
+ inv:
+  permission: debe.pvpmanager.inv.cmd
+  description: PVP Manager - Inv - Command
+  usage: /Inv
+
+permissions:
+ debe:
+  default: op
+  description: DeBePlugins
+  children:
+   debe.pvpmanager.pvp.cmd:
+    description: PVP Manager - PVP - Command
+   debe.pvpmanager.pvp.attack:
+    description: PVP Manager - PVP - Attack
+   debe.pvpmanager.inv.cmd:
+    description: PVP Manager - Inv - Command
