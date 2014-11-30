@@ -12,9 +12,8 @@ class TeleportView extends PluginBase{
 
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $sub){
 		$mm = "[TeleportView] ";
-		$ik = $this->isKorean();
 		if($sender->getName() == "CONSOLE"){
-			$sender->sendMessage($mm . ($ik ? "게임내에서만 사용가능합니다.": "Please run this command in-game"));
+			$sender->sendMessage($mm . ($this->isKorean() ? "게임내에서만 사용가능합니다.": "Please run this command in-game"));
 			return true;
 		}
 		$yaw = $sender->getYaw();
@@ -37,7 +36,7 @@ class TeleportView extends PluginBase{
 				$f = true;
 			}
 		}
-		if(!isset($f)) $sender->sendMessage($mm . ($ik ? "타겟 블럭이 너무 멉니다.": "TargetBlock is too far"));
+		if(!isset($f)) $sender->sendMessage($mm . ($this->isKorean() ? "타겟 블럭이 너무 멉니다.": "TargetBlock is too far"));
 		return true;
 	}
 

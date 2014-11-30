@@ -1,20 +1,19 @@
 name: TeleportView
 main: DeBePlugins\TeleportView\TeleportView
-version: DeBe
-api: [1.6.0]
-author: DeBe
+version: 1.0.1_for1.4
+api: [1.4.0]
+author: if(Team);-DeBe
 
 commands:
  teleportview:
-  permission: debe.teleportview.cmd
-  description: TeleportView - Command
+  permission: db.pl.teleportview
+  description: DeBe's TeleportView - Player
   usage: /TeleportView
 
 permissions:
- debe:
-  default: op
-  description: DeBePlugins
+ db.pl:
+  default: true
+  description: DeBe's Plugins for Player
   children:
-   debe.teleportview.cmd:
-   	default: true
-    description: TeleportView - Command
+   db.pl.teleportview:
+    description: DeBe's TeleportView - for Player

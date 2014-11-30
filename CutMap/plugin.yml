@@ -1,0 +1,19 @@
+name: CutMap
+main: DeBePlugins\CutMap\CutMap
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ cutmap:
+  permission: debe.op.cutmap
+  description: DeBe - [CutMap] - OP
+  usage: /CutMap
+
+permissions:
+ debe.op:
+  default: op
+  description: DeBePlugins - OP
+  children:
+   debe.op.cutmap:
+    description: DeBe - [CutMap] - OP

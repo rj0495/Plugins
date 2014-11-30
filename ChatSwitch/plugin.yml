@@ -1,0 +1,20 @@
+name: ChatSwitch
+main: DeBePlugins\ChatSwitch\ChatSwitch
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ chatswitch:
+  permission: debe.chatswitch.cmd
+  description: ChatSwitch - Command
+  usage: /ChatSwitch
+
+permissions:
+ debe.op:
+  default: op
+  description: DeBePlugins
+  children:
+   debe.chatswitch.cmd:
+    default: true
+    description: ChatSwitch - Command

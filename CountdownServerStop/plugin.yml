@@ -1,0 +1,19 @@
+name: CountdownServerStop
+main: DeBePlugins\CountdownServerStop\CountdownServerStop
+version: 1.0.1_for1.4
+api: [1.4.0]
+author: if(Team);-DeBe
+
+commands:
+ countdownserverstop:
+  permission: db.op.countdownserverstop
+  description: DeBe's CountdownServerStop - for OP
+  usage: /CountdownServerStop <Time>
+
+permissions:
+ db.op:
+  default: op
+  description: DeBe's Plugins for OP
+  children:
+   db.op.countdownserverstop:
+    description: DeBe's CountdownServerStop- for OP

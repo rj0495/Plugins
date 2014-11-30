@@ -1,0 +1,19 @@
+name: Inventory
+main: DeBePlugins\Inventory\Inventory
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ inventory:
+  permission: debe.op.inventory
+  description: DeBe - [Inventory] - OP
+  usage: /Inventory <View|Armor|Take|Clear>
+
+permissions:
+ debe.op:
+  default: op
+  description: DeBePlugins - OP
+  children:
+   debe.op.inventory:
+    description: DeBe - [Inventory] - OP

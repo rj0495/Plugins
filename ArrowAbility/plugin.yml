@@ -1,0 +1,5 @@
+name: ArrowAbility
+main: DeBePlugins\ArrowAbility\ArrowAbility
+version: DeBe
+api: [1.6.0]
+author: DeBe
