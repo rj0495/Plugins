@@ -44,6 +44,7 @@ class ItemCase extends PluginBase implements Listener{
 			case "add":
 			case "a":
 			case "추가":
+				$sc = true;
 				if(isset($t[$n])){
 					$r = $mm . ($ik ?  "아이템케이스 추가 해제": " ItemCase Add Touch Disable");
 					unset($t[$n]);
@@ -71,12 +72,13 @@ class ItemCase extends PluginBase implements Listener{
 			case "d":
 			case "삭제":
 			case "제거":
+				$sc = true;
 				if(isset($t[$n])){
 					$r = $mm . ($ik ?  "아이템케이스 제거 해제": " ItemCase Del Touch Disable");
 					unset($t[$n]);
 				}else{
 					$r = $mm . ($ik ?  "대상 블럭을 터치해주세요. ": "Touch the block glass ");
-					$t[$n] = ["Type" => "Del" ];
+					$t[$n] = ["Type" => "Del"];
 				}
 			break;
 			case "reset":
@@ -89,7 +91,6 @@ class ItemCase extends PluginBase implements Listener{
 			case "respawn":
 			case "리스폰":
 			case "rs":
-			 $this->spawnCase();
 				$r = $mm . ($ik ?  " 아이템 리스폰됨.": " Spawn the Items");
 			break;
 			case "glass":
@@ -98,10 +99,12 @@ class ItemCase extends PluginBase implements Listener{
 			case "c":
 			case "유리":
 			case "케이스":
-			 	foreach($this->item as $case => $item){
-					$pos = explode(":", $case);
-					$l = $this->getServer()->getLevelByName($pos[3]);
-					if($l != false) $l->setBlock(new Vector3(...$pos),Block::get(20));
+				foreach($this->ic as $k => $list){
+					foreach($list as $item => $v){
+						$pos = explode(":", $k);
+						$l = $this->getServer()->getLevelByName($pos[3]);
+						if($l != false) $l->setBlock(new Vector3(...$pos),Block::get(20));
+					}
 				}
 				$r = $mm . ($ik ?  " 유리 설치됨.": " Place the Glass");
 			break;
@@ -113,7 +116,7 @@ class ItemCase extends PluginBase implements Listener{
 		$this->ic = $ic;
 		$this->touch = $t;
 		$this->saveYml();
-		$this->spawnCase();
+		if(!isset($sc)) $this->spawnCase();
 		return true;
 	}
 
@@ -163,7 +166,7 @@ class ItemCase extends PluginBase implements Listener{
 		$n = $p->getName();
 		$l = $p->getLevel()->getFolderName();
 		if(!isset($this->level[$n])) $this->level[$n] = $l;
-		elseif($this->level[$n] !== $l) $this->spawnCase();
+		elseif($this->level[$n] !== $l) $this->spawnCase(true);
 	}
 
 	public function onBlockBreak(BlockBreakEvent $event){
@@ -183,7 +186,7 @@ class ItemCase extends PluginBase implements Listener{
 
 	public function spawnCase($time = false){
 		if(!$this->time) $this->time = microtime(true);
-		if($time && time(true) - $this->time < 3) return; 
+		if($time && time(true) - $this->time < 5) return; 
 		$this->time = time(true);
  		$this->despawnCase();
 		foreach($this->ic as $k => $list){
@@ -214,8 +217,7 @@ class ItemCase extends PluginBase implements Listener{
 				$count++;
 				$pk->entities = [[$this->eid,$pos[0] + 0.5 + $dis,$pos[1] + 0.25,$pos[2] + 0.5 + $dis,0,0 ] ];
 				$this->dataPacket($pk, $k);
-				if(!isset($this->item[$k])) $this->item[$k] = [];
-				$this->item[$k][] = $this->eid;
+				$this->item[] = $this->eid;
 				$this->eid++;
 				$this->dataPacket($pk, $k);
 			}
@@ -223,19 +225,18 @@ class ItemCase extends PluginBase implements Listener{
 	}
 
 	public function despawnCase(){
-		foreach($this->item as $k => $list){
-			foreach($list as $item => $v){
-				$pk = new RemoveEntityPacket();
-				$pk->eid = $v;
-				$this->dataPacket($pk, $k);
-			}
+		foreach($this->item as $v){
+			$pk = new RemoveEntityPacket();
+			$pk->eid = $v;
+			$this->dataPacket($pk);
 		}
+		$this->item = [];
 	}
 
 	public function addCase($pos, $id, $size){
 		if(!isset($this->ic[$pos])) $this->ic[$pos] = [];
 		if(count($this->ic[$pos]) == 3) return false;
-		$this->ic[$pos][count($this->ic[$pos])] = [$id,round($size) ];
+		$this->ic[$pos][count($this->ic[$pos])] = [$id,round($size)];
 		$this->saveYml();
 		return true;
 	}
@@ -246,9 +247,9 @@ class ItemCase extends PluginBase implements Listener{
 		$this->saveYml();
 	}
 
-	public function dataPacket($pk, $pos){
+	public function dataPacket($pk, $pos = ""){
 		foreach($this->getServer()->getOnlinePlayers() as $p){
-			if($p->getLevel()->getName() == explode(":", $pos)[3]) $p->directDataPacket($pk);
+			if($pk instanceof RemoveEntityPacket || $p->getLevel()->getName() == explode(":", $pos)[3]) $p->directDataPacket($pk);
 		}
 	}
 
