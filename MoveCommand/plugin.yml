@@ -1,0 +1,20 @@
+name: MoveCommand
+main: DeBePlugins\MoveCommand\MoveCommand
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ move:
+  permission: debe.move.cmd
+  description: Move - Command
+  usage: /Move <PlayerName> <X> <Y> <Z>
+
+permissions:
+ debe:
+  default: op
+  description: DeBePlugins
+  children:
+   debe.move.cmd:
+    default: true
+    description: Move - Command

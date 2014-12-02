@@ -52,7 +52,7 @@ class ClearEntities extends PluginBase implements Listener{
 		$w = false;
 		if(isset($sub[2])) $w = $this->getLevelByName($sub[2]);
 		foreach($this->getServer()->getLevels() as $l){
-			if($w || $w !== $l) continue;
+			if($w && $w !== $l) continue;
 			foreach($l->getEntities() as $e){
 				switch($m){
 					case "Item":

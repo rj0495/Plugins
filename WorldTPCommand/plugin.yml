@@ -1,0 +1,20 @@
+name: WorldTPCommand
+main: DeBePlugins\WorldTPCommand\WorldTPCommand
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ worldtp:
+  permission: debe.worldtp.cmd
+  description: WorldTP - Command
+  usage: /WorldTP <PlayerName> <X> <Y> <Z> <WorldName>
+
+permissions:
+ debe:
+  default: op
+  description: DeBePlugins
+  children:
+   debe.worldtp.cmd:
+    default: true
+    description: WorldTP - Command

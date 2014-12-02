@@ -143,12 +143,12 @@ class EazyCommand extends PluginBase implements Listener{
 	public function setMessage($event){
 		$cmd = $event->getMessage();
 		if(strpos($cmd, "/") !== 0) return;
-		$cmd = str_replace("/", "", $cmd);
+		$cmd = substr($cmd, 1, strlen($cmd));
 		$event->setMessage("/" . $this->alias($cmd));
 	}
 
 	public function alias($cmd){
-		$al = $this->al;
+ 		$al = $this->al;
 		$arr = explode(" ", $cmd);
 		while((isset($al[strtolower($arr[0])]))){
 			$arr[0] = $al[strtolower($arr[0])];

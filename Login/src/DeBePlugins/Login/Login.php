@@ -36,30 +36,71 @@ class Login extends PluginBase implements Listener{
 		$rm = TextFormat::RED . "Usage: /" . $cmd->getName();
 		$mm = "[Login] ";
 		$ik = $this->isKorean();
-		if($sender->getName() == "CONSOLE"){
-			$sender->sendMessage($ik ? $m . "게임내에서만 사용가능합니다.": $m . "Please run this command in-game");
+		$cmd = strtolower($cmd->getName());
+ 		if($sender->getName() == "CONSOLE" && $cmd !== "loginop"){
+			$sender->sendMessage($mm . ($ik ? "게임내에서만 사용가능합니다.": "Please run this command in-game"));
 			return true;
-		}elseif(!isset($sub[0]) or $sub[0] == "") return false;
-		switch(strtolower($cmd->getName())){
+		}elseif(!isset($sub[0]) || $sub[0] == "") return false;
+		switch($cmd){
 			case "login":
 				if($this->isLogin($sender)){
-					$sender->sendMessage($ik ? $mm . "이미 로그인되었습니다.": $m . "Already logined");
+					$sender->sendMessage($mm . ($ik ? "이미 로그인되었습니다.": "Already logined"));
 				}else{
 					$this->login($sender,$sub[0]);
 				}
 			break;
 			case "register":
 				if($this->isRegister($sender)){
-					$sender->sendMessage($ik ? $mm . "이미 가입되었습니다.": $m . "Already registered");
-				}elseif(!isset($sub[1]) or $sub[1] == "" or $sub[0] !== $sub[1]){
+					$sender->sendMessage($mm . ($ik ? "이미 가입되었습니다.": "Already registered"));
+				}elseif(!isset($sub[1]) || $sub[1] == "" || $sub[0] !== $sub[1]){
 					return false;
 				}elseif(strlen($sub[0]) < 5){
-					$sender->sendMessage($ik ? $mm . "비밀번호가 너무 짧습니다.": $m . "Password is too short");
+					$sender->sendMessage($mm . ($ik ? "비밀번호가 너무 짧습니다.": "Password is too short"));
 					return false;
 				}else{
 					$this->register($sender,$sub[0]);
 					$this->login($sender,$sub[0]);
 				}
+			break;
+			case "loginop":
+				if(!isset($sub[1]) || $sub[1] == "" || !isset($this->lg[strtolower($sub[1])])){
+					$sender->sendMessage($mm . ($ik ? "<플레이어명>을 확인해주세요.": "Please check <PlayerName>"));
+					return false;
+				}else{
+					$sub[1] = strtolower($sub[1]);
+					$pass = $this->lg[strtolower($sub[1])]["PW"];
+					switch(strtolower($sub[0])){
+						case "view":
+						case "v":
+						case "password":
+						case "pw":
+						case "비밀번호":
+						case "비번":
+							$sender->sendMessage($mm . $sub[1] . ($ik ? "님의 비밀번호 : ": "'s Password : ") . $pass);
+						break;
+						case "unregister":
+						case "ur":
+						case "u":
+						case "탈퇴":
+								unset($this->lg[$sub[1]]);
+							$sender->sendMessage($mm . ($ik ? "$sub[1] 님의 비밀번호을 제거합니다." : "Delete $sub[1] 's password"));						
+						break;
+						case "change":
+						case "c":
+							if(!isset($sub[2]) || $sub[2] == ""){
+								$sender->sendMessage($mm . ($ik ? "<플레이어명>을 확인해주세요.": "Please check <PlayerName>"));
+								return false;
+							}else{
+								$this->lg[$sub[1]]["PW"] = $sub[2];
+								$sender->sendMessage($mm . $sub[1] . ($ik ? "님의 비밀번호를 바꿨습니다. : ": "'s Password is changed : ") . "$pass => $sub[2]");
+							}
+						break;						
+					}
+				}
+				$this->saveYml();
+			break;
+			default:
+				return false;
 			break;
 		}
 		return true;

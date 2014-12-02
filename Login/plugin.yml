@@ -7,12 +7,16 @@ author: DeBe
 commands:
  login:
   permission: debe.login.cmd
-  description: Login - Command
+  description: Login - Login - Command
   usage: /Login <Password>
  register:
-  permission: debe.login.cmd
-  description: Login - Command
+  permission: debe.register.cmd
+  description: Login - Register - Command
   usage: /Register <Pasrword> <Password>
+ loginop:
+  permission: debe.loginop.cmd
+  description: Login - LoginOP - Command
+  usage: /LoginOP <View | UnRegister | Change> <PlayerName> 
 
 permissions:
  debe:
@@ -20,5 +24,10 @@ permissions:
   description: DeBePlugins
   children:
    debe.login.cmd:
-    default: true;
-    description: Login - Command
+    default: true
+    description: Login - Login - Command
+   debe.register.cmd:
+    default: true
+    description: Login - Register - Command
+   debe.loginop.cmd:
+    description: Login - LoginOP - Command
