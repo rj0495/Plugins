@@ -1,0 +1,27 @@
+name: CommandBlock
+main: DeBePlugins\CommandBlock\CommandBlock
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ commandblock:
+  permission: debe.commandblock.cmd
+  description: CommandBlock - Command
+  usage: /CommandBlock <Add|Del|Reset>
+
+permissions:
+ debe:
+  default: op
+  description: DeBePlugins
+  children:
+   debe.commandblock.cmd:
+    description: CommandBlock - Command
+   debe.commandblock.block:
+    description: CommandBlock - Edit block
+   debe.commandblock.touch:
+    default: true
+    description: CommandBlock - Touch commandblock
+   debe.commandblock.push:
+    default: true
+    description: CommandBlock - Push commandblock

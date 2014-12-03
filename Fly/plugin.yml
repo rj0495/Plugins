@@ -1,0 +1,19 @@
+name: Fly
+main: DeBePlugins\Fly\Fly
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ fly:
+  permission: debe.fly.cmd
+  description: Fly - Command
+  usage: /Fly
+
+permissions:
+ debe:
+  default: op
+  description: DeBePlugins
+  children:
+   debe.fly.cmd:
+    description: Fly - Command
