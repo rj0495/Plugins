@@ -1,0 +1,5 @@
+name: CocoaBean
+main: DeBePlugins\CocoaBean\CocoaBean
+version: DeBe
+api: [1.6.0]
+author: DeBe

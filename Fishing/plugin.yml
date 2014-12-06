@@ -1,0 +1,19 @@
+name: Fishing
+main: DeBePlugins\Fishing\Fishing
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ fishing:
+  permission: debe.fishing.cmd
+  description: Fishing - Command
+  usage: /Fishing <Fishing|Item|UseItem|Delay|Cool|Count|Fishs>
+
+permissions:
+ debe:
+  default: op
+  description: DeBePlugins
+  children:
+   debe.fishing.cmd:
+    description: Fishing - Command

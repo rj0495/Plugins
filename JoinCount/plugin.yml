@@ -1,0 +1,19 @@
+name: JoinCount
+main: DeBePlugins\JoinCount\JoinCount
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ joincount:
+  permission: debe.joincount.cmd
+  description: JoinCount - Command
+  usage: /JoinCount <View|Rank|Clear|AllClear>
+
+permissions:
+ debe:
+  default: op
+  description: DeBePlugins
+  children:
+   debe.joincount.cmd:
+    description: JoinCount - Command

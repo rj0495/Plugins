@@ -1,0 +1,19 @@
+name: CommandLog
+main: DeBePlugins\CommandLog\CommandLog
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ commandlog:
+  permission: debe.commandlog.cmf
+  description: CommandLog - Command
+  usage: /CommandLog <View|Clear|AllClear>
+
+permissions:
+ debe:
+  default: op
+  description: DeBePlugins
+  children:
+   debe.commandlog.cmd:
+    description: CommandLog - Command

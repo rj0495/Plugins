@@ -1,0 +1,19 @@
+name: DropCount
+main: DeBePlugins\DropCount\DropCount
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ dropcount:
+  permission: debe.dropcount.cmd
+  description: DropCount - Command
+  usage: /DropCount <Num1> <Num2>
+
+permissions:
+ debe:
+  default: op
+  description: DeBePlugins
+  children:
+   debe.dropcount.cmd:
+    description: DropCount - Command

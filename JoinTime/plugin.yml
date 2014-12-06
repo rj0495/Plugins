@@ -1,0 +1,19 @@
+name: JoinTime
+main: DeBePlugins\JoinTime\JoinTime
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ jointime:
+  permission: debe.jointime.cmd
+  description: JoinTime - Command
+  usage: /JoinTime <View|Rank|Clear|AllClear>
+
+permissions:
+ debe:
+  default: op
+  description: DeBePlugins
+  children:
+   debe.jointime.cmd:
+    description: JoinTime - Command
