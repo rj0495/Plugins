@@ -25,6 +25,7 @@ class Inventory extends PluginBase{
 				return true;
 			}elseif($player->isCreative()){
 				$sender->sendMessage($mm . $player->getName() . ($ik ? " 님은 크리에이티브입니다.": " is Creative mode"));
+				return true;
 			}else{
 				$inv = $player->getInventory();
 				$n = $player->getName();
@@ -68,11 +69,12 @@ class Inventory extends PluginBase{
 			case "t":
 			case "뺏기":
 			case "빼앗기":
-				if(!isset($sub[1])){
+				if(!isset($sub[3])){
 					$sender->sendMessage($rm . ($ik ? "<빼앗기> <플레이어명> <아이템ID> <갯수>": "<Take> <PlayerName> <ItemID> <Count>"));
 					return true;
 				}
 				$i = Item::fromString($sub[2]);
+				if($i->isTool()) $i->setDamage(null);
 				if($i->getID() == 0){
 					$r = $sub[2] . " " . ($ik ? "는 잘못된 아이템ID입니다.": "is invalid itemID");
 				}elseif(!is_numeric($sub[3]) || $sub[3] < 1){
@@ -84,23 +86,11 @@ class Inventory extends PluginBase{
 					$sender->sendMessage($r);
 					return true;
 				}
-				$i->setCount($sub[2]);
-				foreach($inv->getContents() as $k => $item){
-					if($item->getID() == $i->getID() && $item->getDamage() == $i->getDamage()){
-						$sub[2] = $item->getCount() - $sub[2];
-						if($sub[2] <= 0){
-							$inv->clear($k);
-							$sub[2] = -($sub[2]);
-						}else{
-							$inv->setItem($k, Item::get($item->getID(), $item->getDamage(), $sub[2]));
-							break;
-						}
-					}
-					$player->getInventory()->removeItem($i);
-					$ii = " $i (" . $i->getCount() . ")";
-					$r = $mn . ($ik ? "님의 아이템을 빼앗았습니다. ": "Take item the" . $n) . $ii;
-					$player->sendMessage($mn . ($ik ? "님이 당신의 아이템을 빼앗았습니다. ": "is Take item from you ") . $ii);
-				}
+				$i->setCount($sub[3]);
+				$player->getInventory()->removeItem($i);
+				$ii = " $i ($sub[3])";
+				$r = $mn . ($ik ? "님의 아이템을 빼앗았습니다. ": "Take item the" . $n) . $ii;
+				$player->sendMessage($mn . ($ik ? "님이 당신의 아이템을 빼앗았습니다. ": "is Take item from you ") . $ii);
 			break;
 			case "clear":
 			case "c":
@@ -121,7 +111,7 @@ class Inventory extends PluginBase{
 		$c = $cnt;
 		$cnt = 0;
 		foreach($p->getInventory()->getContents() as $ii){
-			if($ii->equals($i, $i->getDamage())) $cnt += $ii->getCount();
+			if($ii->equals($i, $i->isTool() ? false : $i->getDamage())) $cnt += $ii->getCount();
 			if($cnt >= $c) break;
 		}
 		if($cnt < $c) return false;

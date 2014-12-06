@@ -16,5 +16,4 @@ permissions:
   description: DeBePlugins
   children:
    debe.move.cmd:
-    default: true
     description: Move - Command

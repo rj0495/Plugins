@@ -30,6 +30,10 @@ class Login extends PluginBase implements Listener{
 		$this->spawn = [];
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$this->loadYml();
+		foreach($this->getServer()->getOnlinePlayers() as $p){
+			$this->sendLogin($p,true);
+			$this->spawn[strtolower($p->getName())] = $p->getPosition();
+		}
 	}
 
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $sub){
@@ -46,7 +50,7 @@ class Login extends PluginBase implements Listener{
 				if($this->isLogin($sender)){
 					$sender->sendMessage($mm . ($ik ? "이미 로그인되었습니다.": "Already logined"));
 				}else{
-					$this->login($sender,$sub[0]);
+					$this->login($sender,$sub[0],false,isset($sub[1]) ? $sub[1] : "");
 				}
 			break;
 			case "register":
@@ -59,7 +63,7 @@ class Login extends PluginBase implements Listener{
 					return false;
 				}else{
 					$this->register($sender,$sub[0]);
-					$this->login($sender,$sub[0]);
+					if(!$sender->isOp()) $this->login($sender,$sub[0]);
 				}
 			break;
 			case "loginop":
@@ -107,11 +111,11 @@ class Login extends PluginBase implements Listener{
 	}
 
 	public function onPlayerJoin(PlayerJoinEvent $event){
-		$this->sendLogin($event->getPlayer(),true);
+		$this->sendLogin($event->getPlayer(),true); 		
 	}
 
 	public function onPlayerRespawn(PlayerRespawnEvent $event){
-		$this->spawn[$event->getPlayer()->getName()] = $event->getRespawnPosition();
+		$this->spawn[strtolower($event->getPlayer()->getName())] = $event->getRespawnPosition();
 	}
 
 	public function onPlayerQuit(PlayerQuitEvent $event){
@@ -133,7 +137,7 @@ class Login extends PluginBase implements Listener{
 
 	public function onPlayerMove(PlayerMoveEvent $event){
 		$p = $event->getPlayer();
-		if(!$this->isLogin($p)) $p->teleport($this->spawn[$event->getPlayer()->getName()]);
+		if(!$this->isLogin($p)) $p->teleport($this->spawn[strtolower($p->getName())]);
 	}
 
 	public function onPlayerInteract(PlayerInteractEvent $event){
@@ -176,7 +180,7 @@ class Login extends PluginBase implements Listener{
 		return $p instanceof Player && isset($this->lg[strtolower($p->getName())]) ? true: false;
 	}
 
-	public function login($p,$pw = "",$auto = false){
+	public function login($p,$pw = "",$auto = false,$opw = ""){
 		if($this->isLogin($p)) return;
 		$n = strtolower($p->getName());
 		$ik = $this->isKorean();
@@ -184,6 +188,12 @@ class Login extends PluginBase implements Listener{
 			if($pw !== $this->lg[$n]["PW"]){
 				$p->sendMessage("[Login] " . ($ik ? "로그인 실패": "Login to failed"));			
 				return false;
+			}
+			$op = (new Config($this->getServer()->getDataPath() . "/plugins/! DeBePlugins/" . "! Login-OP.yml", Config::YAML, ["Op" => true, "PW" => "op"]))->getAll();
+			if($p->isOp() && $op["Op"] && $op["PW"] !== $opw){
+				$p->sendMessage("[Login] " . ($ik ? "로그인 실패": "Login to failed"));	
+				$p->sendMessage("/Login " . ($ik ? "<비밀번호> <오피비밀번호>" : "<Password> <OP PassWord>")); 					
+				return true;
 			}
 		}
  		$this->player[$n] = true;

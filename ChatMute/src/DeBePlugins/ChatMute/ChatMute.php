@@ -79,6 +79,7 @@ class ChatMute extends PluginBase implements Listener{
 		if($event->isCancelled()) return;
 		$player = $event->getPlayer();
 		$m = "[ChatMute] ";
+		$ik = $this->isKorean();
 		if($this->mute->get("AllMute")){
 			$player->sendMessage($m . ($ik ? "모든 채팅 음소거 상태입니다..": "All Mute"));
 			$event->setCancelled();

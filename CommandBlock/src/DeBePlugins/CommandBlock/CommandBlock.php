@@ -20,6 +20,7 @@ class CommandBlock extends PluginBase implements Listener{
 
 	public function onEnable(){
 		$this->touch = [];
+		$this->place = [];
 		$this->getServer()->getScheduler()->scheduleRepeatingTask(new CallbackTask([$this,"onTick" ]), 20);
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		$this->loadYml();
@@ -120,8 +121,11 @@ class CommandBlock extends PluginBase implements Listener{
 			if(isset($m)) $p->sendMessage($m);
 			$this->saveYml();
 			$event->setCancelled();
+			if($event->getItem()->isPlaceable()){
+				$this->place[$p->getName()] = true;
+			}
 		}else{
-			$this->onBlockEvent($event);
+			$this->onBlockEvent($event,true);
  		}
 	}
 
@@ -133,11 +137,19 @@ class CommandBlock extends PluginBase implements Listener{
 		$this->onBlockEvent($event);
 	}
 
-	public function onBlockEvent($event){
+	public function onBlockEvent($event,$isTouch = false){
+		$p = $event->getPlayer();
+		if(isset($this->place[$p->getName()])){
+			$event->setCancelled();
+			unset($this->place[$p->getName()]);
+		}
 		$pos = $this->getPos($event->getBlock());
-		if(isset($this->cb[$pos])){
-			if(!$event->getPlayer()->hasPermission("debe.commandblock.block")) $event->setCancelled();
-			if($event->getPlayer()->hasPermission("debe.commandblock.touch")) $this->runCommand($event->getPlayer(),$pos);
+ 		if(isset($this->cb[$pos])){
+			if($isTouch && $event->getItem()->isPlaceable()){
+				$this->place[$p->getName()] = true;
+			}
+			if(!$p->hasPermission("debe.commandblock.block")) $event->setCancelled();
+			if($p->hasPermission("debe.commandblock.touch")) $this->runCommand($event->getPlayer(),$pos);
 		}
 	}
 
@@ -159,22 +171,40 @@ class CommandBlock extends PluginBase implements Listener{
 	public function runCommand($p, $pos, $isBlock = false){
 		if(!isset($this->cb[$pos])) return false;
 		$cb = $this->cb[$pos];
+		$l = explode(":", $pos);
 		foreach($cb as $str){
 			$arr = explode(" ", $str);
 			$chat = false;
 			$console = false;
 			$op = false;
+			$deop = false;
+			$safe = false;
 			$block = false;
 			foreach($arr as $k => $v){
 				if(strpos($v, "%") === 0){
 					$kk = $k;
 					switch(strtolower(substr($v,1))){
-						case "username":
-						case "user":
-						case "u":
 						case "player":
 						case "p":
-							$arr[$k] = $p->getName();
+							$arr[$k] = $p->getName();				
+						break;
+						case "x":
+							$arr[$k] = $p->getX();				
+						break;
+						case "y":
+							$arr[$k] = $p->getY();				
+						break;
+						case "z":
+							$arr[$k] = $p->getZ();				
+						break;
+						case "bx":
+							$arr[$k] = $l[0];				
+						break;
+						case "by":
+							$arr[$k] = $l[1];				
+						break;
+						case "bz":
+							$arr[$k] = $l[2];				
 						break;
 						case "world":
 						case "w":
@@ -201,6 +231,15 @@ class CommandBlock extends PluginBase implements Listener{
 							unset($arr[$k]);					
 							$op = true;
 						break;
+						case "deop":
+							unset($arr[$k]);					
+							$deop = true;
+						break;
+						case "safe":
+						case "s":
+							unset($arr[$k]);					
+							$safe = true;
+						break;
 						case "chat":
 						case "c":
 							unset($arr[$k]);					
@@ -213,7 +252,7 @@ class CommandBlock extends PluginBase implements Listener{
 						break;
 						case "block":
 						case "b":
-							unset($arr[$k]);					
+							unset($arr[$k]);
 							$block = true;
 						break;
  					}
@@ -229,12 +268,12 @@ class CommandBlock extends PluginBase implements Listener{
 					}
 				}
 			}
-			if($isBlock && !$block || !$isBlock && $block) continue;
+			if(($isBlock && !$block) || (!$isBlock && $block) || ($safe && !$p->isOp()) || ($deop && $p->isOp())) continue;
 			$cmd = implode(" ", $arr);
 			if($chat){
 				$p->sendMessage($cmd);
 			}else{
-				$ev = $console ? new ServerCommandEvent($sender, $cmd) : new PlayerCommandPreprocessEvent($p, "/" . $cmd);
+				$ev = $console ? new ServerCommandEvent(new ConsoleCommandSender(), "/" . $cmd) : new PlayerCommandPreprocessEvent($p, "/" . $cmd);
 				$this->getServer()->getPluginManager()->callEvent($ev);
 				if(!$ev->isCancelled()){
 					$op = $op && !$p->isOp() && !$console;

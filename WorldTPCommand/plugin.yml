@@ -16,5 +16,4 @@ permissions:
   description: DeBePlugins
   children:
    debe.worldtp.cmd:
-    default: true
     description: WorldTP - Command

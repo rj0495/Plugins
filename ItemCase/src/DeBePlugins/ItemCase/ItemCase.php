@@ -24,6 +24,7 @@ class ItemCase extends PluginBase implements Listener{
 
 	public function onEnable(){
 		$this->touch = [];
+		$this->place = [];
 		$this->item = [];
 		$this->level = [];
 		$this->time = false;
@@ -152,8 +153,11 @@ class ItemCase extends PluginBase implements Listener{
 			$this->spawnCase();
 			if(isset($m)) $p->sendMessage($m);
 			$event->setCancelled();
+			if($event->getItem()->isPlaceable()){
+				$this->place[$p->getName()] = true;
+			}
 		}else{
-			$this->onBlockEvent($event);
+			$this->onBlockEvent($event,true);
  		}
 	}
 
@@ -177,10 +181,18 @@ class ItemCase extends PluginBase implements Listener{
 		$this->onBlockEvent($event);
 	}
 
-	public function onBlockEvent($event){
+	public function onBlockEvent($event,$isTouch = false){
+		$p = $event->getPlayer();
+		if(isset($this->place[$p->getName()])){
+			$event->setCancelled();
+			unset($this->place[$p->getName()]);
+		}
 		if(isset($this->ic[$this->getPos($event->getBlock())])){
-			if(!$event->getPlayer()->hasPermission("debe.itemcase.block")) $event->setCancelled();
-			if($event->getPlayer()->hasPermission("debe.itemcase.spawn")) $this->spawnCase(true);
+			if($isTouch && $event->getItem()->isPlaceable()){
+				$this->place[$p->getName()] = true;
+			}
+			if(!$p->hasPermission("debe.itemcase.block")) $event->setCancelled();
+			if($p->hasPermission("debe.itemcase.spawn")) $this->spawnCase(true);
 		}
 	} 
 
