@@ -1,0 +1,5 @@
+name: DeathPointSpawnPoint
+main: DeBePlugins\DeathPointSpawnPoint\DeathPointSpawnPoint
+version: DeBe
+api: [1.6.0]
+author: DeBe

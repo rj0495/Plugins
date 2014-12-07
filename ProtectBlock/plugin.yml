@@ -1,0 +1,21 @@
+name: ProtectBlock
+main: DeBePlugins\ProtectBlock\ProtectBlock
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ protectblock:
+  permission: debe.protectblock.cmd
+  description: ProtectBlock - Command
+  usage: /ProtectBlock <Add|Del|Reset|List>
+
+permissions:
+ debe:
+  default: op
+  description: DeBePlugins
+  children:
+   debe.protectblock.cmd:
+    description: ProtectBlock - Command
+   debe.protectblock.block:
+    description: ProtectBlock - Block

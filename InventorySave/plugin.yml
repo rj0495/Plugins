@@ -1,0 +1,5 @@
+name: InventorySave
+main: DeBePlugins\InventorySave\InventorySave
+version: DeBe
+api: [1.6.0]
+author: DeBe

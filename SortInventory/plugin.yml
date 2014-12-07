@@ -1,0 +1,20 @@
+name: SortInventory
+main: DeBePlugins\SortInventory\SortInventory
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ SortInventory:
+  permission: debe.sortinventory.cmd
+  description: SortInventory - Command
+  usage: /SortInventory <View|Clear>
+
+permissions:
+ debe:
+  default: op
+  description: DeBePlugins - Command
+  children:
+   debe.sortinventory.cmd:
+    default: true
+    description: SortInventory - Command

@@ -1,0 +1,19 @@
+name: NickName
+main: DeBePlugins\NickName\NickName
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ nickname:
+  permission: debe.nickname.cmd
+  description: NickName - Command
+  usage: /NickName <PlayerName> <NickName>
+
+permissions:
+ debe:
+  default: op
+  description: DeBePlugins
+  children:
+   debe.nickname.cmd:
+    description: NickName - Command

@@ -17,13 +17,13 @@ class DamageBlock extends PluginBase implements Listener{
 
 	public function onEnable(){
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
-		$this->getServer()->getScheduler()->scheduleRepeatingTask(new CallbackTask([$this,"DamageBlock" ]), 20);
+		$this->getServer()->getScheduler()->scheduleRepeatingTask(new CallbackTask([$this,"onTick" ]), 20);
 		$this->loadYml();
 	}
 
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $sub){
 		if(!isset($sub[0])) return false;
-		$db = $this->damageBlock->getAll();
+		$db = $this->db;
 		$rm = TextFormat::RED . "Usage: /DamageBlock ";
 		$mm = "[DamageBlock] ";
 		$ik = $this->isKorean();
@@ -102,7 +102,7 @@ class DamageBlock extends PluginBase implements Listener{
 		return true;
 	}
 
-	public function DamageBlock(){
+	public function onTick(){
 		foreach($this->getServer()->getOnlinePlayers() as $p){
 			if($p->hasPermission("debe.damageblock.inv")) continue;
 			$bb = $p->getBoundingBox();

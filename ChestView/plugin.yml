@@ -1,0 +1,19 @@
+name: ChestView
+main: DeBePlugins\ChestView\ChestView
+version: DeBe
+api: [1.6.0]
+author: DeBe
+
+commands:
+ chestview:
+  permission: debe.chestview.cmd
+  description: ChestView - Command
+  usage: /ChestView
+
+permissions:
+ debe:
+  default: op
+  description: DeBePlugins
+  children:
+   debe.chestview.cmd:
+    description: ChestView - Command
