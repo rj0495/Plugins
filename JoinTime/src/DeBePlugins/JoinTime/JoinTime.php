@@ -25,16 +25,17 @@ class JoinTime extends PluginBase implements Listener{
 		$jt = $this->jt;
 		$rm = TextFormat::RED . "Usage: /JoinTime ";
 		$mm = "[JoinTime] ";
+		$ik = $this->isKorean();
 		switch(strtolower($sub[0])){
 			case "view":
 			case "v":
 			case "보기":
 				if(!isset($sub[1])){
-					$r = ($this->isKorean() ? $rm . "보기 <플레이어명>": $rm . "View(V) <PlayerName>";
-				}elseif(!isset($jt[$sub[1]])){
-					$r = ($this->isKorean() ? "$sub[1] 는 잘못된 플레이어명입니다.": "$sub[1] is invalid player";
+					$r = $rm . ($ik ? "보기 <플레이어명>": "View(V) <PlayerName>");
+				}elseif(!isset($jc[$sub[1]])){
+					$r = $mm . $sub[1] . ($ik ? "는 잘못된 플레이어명입니다.": " is invalid player");
 				}else{
-					$r = ($this->isKorean() ? $mm . $sub[1] . "' 접속시간 : [" . $this->getDay($jt[$sub[1]]) . "]": $mm . $sub[1] . "' Join Time : [" . $this->getDay($jt[$sub[1]]) . "]";
+					$r = $mm . $sub[1] . ($ik ? "' 접속시간 : " : "' Join Time : ") . $this->getDay($jt[$sub[1]]);
 				}
 			break;
 			case "rank":
@@ -54,12 +55,12 @@ class JoinTime extends PluginBase implements Listener{
 			case "초기화":
 			case "클리어":
 				if(!isset($sub[1])){
-					$r = ($this->isKorean() ? $rm . "클리어 <플레이어명>": $rm . "Clear(C) <PlayerName>";
+					$r = $rm . ($ik ? "클리어 <플레이어명>": "Clear(C) <PlayerName>");
 				}elseif(!isset($jt[$sub[1]])){
-					$r = ($this->isKorean() ? "$sub[1] 는 잘못된 플레이어명입니다.": "$sub[1] is invalid player";
+					$r = $mm . $sub[1] . ($ik ? "는 잘못된 플레이어명입니다.": " is invalid player");
 				}else{
 					$jt[$sub[1]] = 0;
-					$r = ($this->isKorean() ? $mm . $sub[1] . " 님의 접속시간을 초기화합니다.": "Clear the $sub[1]'s Join Time";
+					$r = $mm . $sub[1] . ($ik ? "' 접속시간를 초기화 합니다." : "' Join Time is Reset");
 				}
 			break;
 			case "allclear":
@@ -67,7 +68,7 @@ class JoinTime extends PluginBase implements Listener{
 			case "전체초기화":
 			case "전체클리어":
 				$jt = [];
-				$r = ($this->isKorean() ? "모든 접속시간을 초기화합니다.": "Clear the All Join Time";
+				$r = $mm . ($ik ? "모든 접속시간를 초기화합니다.": "Clear the All Join Time");
 			break;
 			default:
 				return false;
@@ -95,7 +96,7 @@ class JoinTime extends PluginBase implements Listener{
 		arsort($jt);
 		$list = ceil(count($jt) / 5);
 		if($page >= $list) $page = $list;
-		$r = ($this->isKorean() ? "랭킹 (페이지 $page/$list) \n": "Rank (Page $page/$list) \n";
+		$r = ($this->isKorean ? "랭킹 (페이지 " : "Rank (Page ") . "$page/$list) \n";
 		$num = 0;
 		foreach($jt as $k => $v){
 			$num++;

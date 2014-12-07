@@ -90,7 +90,7 @@ class CommandLog extends PluginBase implements Listener{
 	public function onPlayerCommandPreprocess(PlayerCommandPreprocessEvent $event){
 		$cmd = $event->getMessage();
 		if(strpos($cmd, "/") !== 0) return false;
-		$this->log(substr($cmd, 1, strlen($cmd)), $event->getPlayer());
+		$this->log(substr($cmd, 1), $event->getPlayer());
 	}
 
 	public function log($cmd, $sender){
@@ -98,14 +98,6 @@ class CommandLog extends PluginBase implements Listener{
 		if($name == "console" && $cmd == "list" || $name == "console" && $cmd == "stop") return false;
 		$this->cl[$name][date("Y:m:d|H:i:s", time())] = $cmd;
 		$this->saveYml();
-		$this->debug($cmd, $sender);
-	}
-
-	public function debug($cmd, $sender){
-		$name = $sender->getName();
-		$color = "";
-		if($name !== "CONSOLE" && $name !== "RCON" && !$sender->isOp()) $color = TextFormat::BLUE;
-		$this->getLogger()->info($color . "$name : $cmd");
 	}
 
 	public function loadYml(){

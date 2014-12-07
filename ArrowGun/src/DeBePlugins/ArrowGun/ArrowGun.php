@@ -19,7 +19,7 @@ class ArrowGun extends PluginBase{
 	public function onCommand(CommandSender $sender, Command $cmd, $label, array $sub){
 		$mm = "[ArrowGun] ";
 		if($sender->getName() == "CONSOLE"){
-			$sender->sendMessage($mm . ($this->isKorean() ? "게임내에서만 사용가능합니다.": "Please run this command in-game"));
+			$sender->sendMessage($mm . (new Config($this->getServer()->getDataPath() . "/plugins/! DeBePlugins/" . "! Korean.yml", Config::YAML, ["Korean" => false ]))->get("Korean") ? "게임내에서만 사용가능합니다.": "Please run this command in-game"));
 			return true;
 		}
 		$nbt = new Compound("", ["Pos" => new Enum("Pos", [new Double("", $sender->getx()),new Double("", $sender->gety() + $sender->getEyeHeight()),new Double("", $sender->getz()) ]),"Motion" => new Enum("Motion", [new Double("", -sin($sender->getyaw() / 180 * M_PI) * cos($sender->getPitch() / 180 * M_PI)),new Double("", -sin($sender->getPitch() / 180 * M_PI)),new Double("", cos($sender->getyaw() / 180 * M_PI) * cos($sender->getPitch() / 180 * M_PI)) ]),"Rotation" => new Enum("Rotation", [new Float("", $sender->getyaw()),new Float("", $sender->getPitch()) ]) ]);
@@ -33,6 +33,5 @@ class ArrowGun extends PluginBase{
 
 	public function isKorean(){
 		@mkdir($this->getServer()->getDataPath() . "/plugins/! DeBePlugins/");
-		return (new Config($this->getServer()->getDataPath() . "/plugins/! DeBePlugins/" . "! Korean.yml", Config::YAML, ["Korean" => false ]))->get("Korean");
-	}
+		return 	}
 }

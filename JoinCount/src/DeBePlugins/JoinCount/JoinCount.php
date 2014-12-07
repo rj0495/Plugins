@@ -23,16 +23,17 @@ class JoinCount extends PluginBase implements Listener{
 		$jc = $this->jc;
 		$rm = TextFormat::RED . "Usage: /JoinCount ";
 		$mm = "[JoinCount] ";
+		$ik = $this->isKorean();
 		switch(strtolower($sub[0])){
 			case "view":
 			case "v":
 			case "보기":
 				if(!isset($sub[1])){
-					$r = ($this->isKorean() ? $rm . "보기 <플레이어명>": $rm . "View(V) <PlayerName>";
+					$r = $rm . ($ik ? "보기 <플레이어명>": "View(V) <PlayerName>");
 				}elseif(!isset($jc[$sub[1]])){
-					$r = ($this->isKorean() ? "$sub[1] 는 잘못된 플레이어명입니다.": "$sub[1] is invalid player";
+					$r = $mm . $sub[1] . ($ik ? "는 잘못된 플레이어명입니다.": " is invalid player");
 				}else{
-					$r = ($this->isKorean() ? $mm . $sub[1] . "' 접속횟수 : " . $jc[$sub[1]]: $mm . $sub[1] . "' Join Count : " . $jc[$sub[1]];
+					$r = $mm . $sub[1] . ($ik ? "' 접속횟수 : " : "' Join Count : ") . $jc[$sub[1]];
 				}
 			break;
 			case "rank":
@@ -52,12 +53,12 @@ class JoinCount extends PluginBase implements Listener{
 			case "초기화":
 			case "클리어":
 				if(!isset($sub[1])){
-					$r = ($this->isKorean() ? $rm . "클리어 <플레이어명>": $rm . "Clear(C) <PlayerName>";
+					$r = $rm . ($ik ? "클리어 <플레이어명>": "Clear(C) <PlayerName>");
 				}elseif(!isset($jc[$sub[1]])){
-					$r = ($this->isKorean() ? "$sub[1] 는 잘못된 플레이어명입니다.": "$sub[1] is invalid player";
+					$r = $mm . $sub[1] . ($ik ? "는 잘못된 플레이어명입니다.": " is invalid player");
 				}else{
 					$jc[$sub[1]] = 0;
-					$r = ($this->isKorean() ? $mm . $sub[1] . " 님의 접속횟수를 초기화합니다.": "Clear the $sub[1]'s Join Count";
+					$r = $mm . $sub[1] . ($ik ? "' 접속횟수를 초기화 합니다." : "' Join Count is Reset");
 				}
 			break;
 			case "allclear":
@@ -68,7 +69,7 @@ class JoinCount extends PluginBase implements Listener{
 				foreach($this->getServer()->getOnlinePlayers() as $p){
 					if(!isset($this->jc[strtolower($p->getName())])) $this->jc[strtolower($p->getName())] = 1;
 				}
-				$r = ($this->isKorean() ? "모든 접속횟수를 초기화합니다.": "Clear the All Join Count";
+				$r = $mm . ($ik ? "모든 접속횟수를 초기화합니다.": "Clear the All Join Count");
 			break;
 			default:
 				return false;
@@ -95,7 +96,7 @@ class JoinCount extends PluginBase implements Listener{
 		arsort($jc);
 		$list = ceil(count($jc) / 5);
 		if($page >= $list) $page = $list;
-		$r = ($this->isKorean() ? "랭킹 (페이지 $page/$list) \n": "Rank (Page $page/$list) \n";
+		$r = ($this->isKorean ? "랭킹 (페이지 " : "Rank (Page ") . "$page/$list) \n";
 		$num = 0;
 		foreach($jc as $k => $v){
 			$num++;

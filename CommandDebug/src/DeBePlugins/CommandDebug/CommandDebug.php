@@ -8,7 +8,7 @@ use pocketmine\utils\TextFormat;
 use pocketmine\event\server\ServerCommandEvent;
 use pocketmine\event\server\RemoteServerCommandEvent;
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
-
+use pocketmine\Player;
 class CommandDebug extends PluginBase implements Listener{
 
 	public function onEnable(){
@@ -30,13 +30,10 @@ class CommandDebug extends PluginBase implements Listener{
 	public function debugMessage($event){
 		$cmd = $event->getMessage();
 		if(strpos($cmd, "/") !== 0) return false;
-		$this->debug(substr($cmd, 1, strlen($cmd)), $event->getPlayer());
+		$this->debug(substr($cmd, 1), $event->getPlayer());
 	}
 
 	public function debug($cmd, $sender){
-		$name = $sender->getName();
-		$color = "";
-		if($name !== "CONSOLE" && $name !== "RCON" && !$sender->isOp()) $color = TextFormat::BLUE;
-		$this->getLogger()->info($color . "$name : $cmd");
+		$this->getLogger()->info($sender instaceof Player && !$sender->isOp() ? TextFormat::RED : TextFormat::YELLOW . "$name : " .TextFormat::BLUE . "$cmd");
 	}
 }

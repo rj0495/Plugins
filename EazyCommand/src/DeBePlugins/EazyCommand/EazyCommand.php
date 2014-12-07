@@ -127,17 +127,20 @@ class EazyCommand extends PluginBase implements Listener{
 		$event->setCommand($this->alias($event->getCommand()));
 		$m = $this->specialCommand($event);
 		if($m !== false) $event->setCommand($m);
+		else $event->setCancelled();
 	}
 
 	public function onPlayerCommandPreprocess(PlayerCommandPreprocessEvent $event){
 		$this->setMessage($event);
 		$m = $this->specialMessage($event);
 		if($m !== false) $event->setMessage("/" . $m);
+		else $event->setCancelled();
 	}
 
 	public function onPlayerChat(PlayerChatEvent $event){
 		$m = $this->specialCommand($event);
 		if($m !== false) $event->setMessage($m);
+		else $event->setCancelled();
 	}
 
 	public function setMessage($event){
@@ -233,7 +236,7 @@ class EazyCommand extends PluginBase implements Listener{
 					$ev = new RemoteServerCommandEvent($sender, $cmd);
 				}
 				$this->getServer()->getPluginManager()->callEvent($ev);
-				if(!$ev->isCancelled()) $this->getServer()->dispatchCommand($sender, substr($ep ? $ev->getMessage(): $ev->getCommand(), 1));
+				if(!$ev->isCancelled()) $this->getServer()->dispatchCommand($sender, $ep ? substr($ev->getMessage(),1) : $ev->getCommand());
 			}
 			return false;
 		}else

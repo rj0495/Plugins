@@ -25,14 +25,15 @@ class DropCount extends PluginBase implements Listener{
 		$set = $this->set->getAll();
 		$rm = TextFormat::RED . "Usage: /DropCount ";
 		$mm = "[DropCount] ";
+		$ik = $this->isKorean();
 		if(!isset($sub[0])){
-			$r = ($this->isKorean() ? $rm . "<횟수1> <횟수2>": $rm . "<Num1> <Num2>";
+			$r = ($ik ? $rm . "<횟수1> <횟수2>": $rm . "<Num1> <Num2>";
 		}else{
 			if($sub[0] < 0 || !is_numeric($sub[0])) $sub[0] = 0;
 			$sub[0] = round($sub[0]);
 			if(isset($sub[1]) && $sub[1] > $sub[0] && is_numeric($sub[1]) !== false) $sub[0] = $sub[0] . "~" . round($sub[1]);
 			$set["Count"] = $sub[0];
-			$r = ($this->isKorean() ? "드롭 횟수가 [$sub[0]] 로 설정되었습니다.": "Drop count is set [$sub[0]]";
+			$r = ($ik ? "드롭 횟수가 [$sub[0]] 로 설정되었습니다.": "Drop count is set [$sub[0]]";
 		}
 		if(isset($r)) $sender->sendMessage($r);
 		$this->set->setAll($set);

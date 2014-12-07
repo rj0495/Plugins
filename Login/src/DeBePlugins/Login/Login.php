@@ -189,7 +189,7 @@ class Login extends PluginBase implements Listener{
 				$p->sendMessage("[Login] " . ($ik ? "로그인 실패": "Login to failed"));			
 				return false;
 			}
-			$op = (new Config($this->getServer()->getDataPath() . "/plugins/! DeBePlugins/" . "! Login-OP.yml", Config::YAML, ["Op" => true, "PW" => "op"]))->getAll();
+			$op = (new Config($this->getServer()->getDataPath() . "/plugins/! DeBePlugins/" . "! Login-OP.yml", Config::YAML, ["Op" => false, "PW" => "op"]))->getAll();
 			if($p->isOp() && $op["Op"] && $op["PW"] !== $opw){
 				$p->sendMessage("[Login] " . ($ik ? "로그인 실패": "Login to failed"));	
 				$p->sendMessage("/Login " . ($ik ? "<비밀번호> <오피비밀번호>" : "<Password> <OP PassWord>")); 					
@@ -232,6 +232,7 @@ class Login extends PluginBase implements Listener{
 		@mkdir($this->getServer()->getDataPath() . "/plugins/! DeBePlugins/");
 		$this->login = new Config($this->getServer()->getDataPath() . "/plugins/! DeBePlugins/" . "Login.yml", Config::YAML);
 		$this->lg = $this->login->getAll();
+		new Config($this->getServer()->getDataPath() . "/plugins/! DeBePlugins/" . "! Login-OP.yml", Config::YAML, ["Op" => false, "PW" => "op"]);
 	}
 
 	public function saveYml(){

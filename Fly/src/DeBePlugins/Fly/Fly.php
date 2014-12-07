@@ -24,7 +24,7 @@ class Fly extends PluginBase implements Listener{
 				if($fly["Fly"]) $b = false;
 				else $b = true;
 				$fly["Fly"] = $b;
-				$m = "[Fly]" . ($b ? ($ik ? "플라이 킥을 켭니다." : "Fly kick is On") : ($ik ? "플라이킥을 끕니다." : "Fly kick is Off"));
+				$m = "[Fly] " . ($ik ? "플라이킥을 " : "Fly kick is ") . ($b ? ($ik ? "켭니다." : "On") : ($ik ? "끕니다." : "Off"));
 			break;
 		}
 		$this->fly = $fly;
