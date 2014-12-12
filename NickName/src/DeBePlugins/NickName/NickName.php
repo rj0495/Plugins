@@ -37,6 +37,7 @@ class NickName extends PluginBase{
 
 	public function onTick(){
 		foreach($this->getServer()->getOnlinePlayers() as $p){
+			$c = false;
 			$n = $p->getName();
 			$sn = strtolower($n);
 			if(!isset($this->nn[$sn])) $this->nn[$sn] = $n;
@@ -49,7 +50,7 @@ class NickName extends PluginBase{
 				$r = $p->setNameTag($nn);
 				$c = true;
 			}
-			if(isset($c)) $p->sendMessage("[NickName] " . ($this->isKorean() ? " 당신의 닉네임이 $nn 으로 변경되엇습니다." : "Your nickname is change to $nn"));
+			if($c) $p->sendMessage("[NickName] " . ($this->isKorean() ? " 당신의 닉네임이 $nn 으로 변경되엇습니다." : "Your nickname is change to $nn"));
 		}
 	}
 

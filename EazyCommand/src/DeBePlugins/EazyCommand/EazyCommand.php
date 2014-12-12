@@ -9,7 +9,6 @@ use pocketmine\event\Listener;
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
 use pocketmine\event\server\ServerCommandEvent;
-use pocketmine\event\server\RemoteServerCommandEvent;
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\event\player\PlayerChatEvent;
 
@@ -123,13 +122,6 @@ class EazyCommand extends PluginBase implements Listener{
 		if($m !== false) $event->setCommand($m);
 	}
 
-	public function onRemoteServerCommand(RemoteServerCommandEvent $event){
-		$event->setCommand($this->alias($event->getCommand()));
-		$m = $this->specialCommand($event);
-		if($m !== false) $event->setCommand($m);
-		else $event->setCancelled();
-	}
-
 	public function onPlayerCommandPreprocess(PlayerCommandPreprocessEvent $event){
 		$this->setMessage($event);
 		$m = $this->specialMessage($event);
@@ -230,10 +222,8 @@ class EazyCommand extends PluginBase implements Listener{
 					$this->getServer()->getPluginManager()->callEvent($ev = new PlayerChatEvent($sender, $cmd));
 					if(!$ev->isCancelled()) $this->getServer()->broadcastMessage(sprintf($ev->getFormat(), $ev->getPlayer()->getDisplayName(), $ev->getMessage()), $ev->getRecipients());
 					return false;
-				}elseif($event instanceof ServerCommandEvent){
-					$ev = new ServerCommandEvent($sender, $cmd);
 				}else{
-					$ev = new RemoteServerCommandEvent($sender, $cmd);
+					$ev = new ServerCommandEvent($sender, $cmd);
 				}
 				$this->getServer()->getPluginManager()->callEvent($ev);
 				if(!$ev->isCancelled()) $this->getServer()->dispatchCommand($sender, $ep ? substr($ev->getMessage(),1) : $ev->getCommand());

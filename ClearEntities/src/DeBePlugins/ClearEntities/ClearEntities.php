@@ -8,7 +8,7 @@ use pocketmine\command\CommandSender;
 use pocketmine\utils\Config;
 use pocketmine\Player;
 use pocketmine\entity\Arrow;
-use pocketmine\entity\DroppedItem;
+use pocketmine\entity\Item;
 use pocketmine\entity\Living;
 use pocketmine\event\Listener;
 use pocketmine\event\entity\EntitySpawnEvent;
@@ -58,7 +58,7 @@ class ClearEntities extends PluginBase implements Listener{
 					case "Item":
 					case "아이템":
 						$m = $ik ? "아이템": "Item";
-						if($e instanceof DroppedItem) $entities[] = $e;
+						if($e instanceof Item) $entities[] = $e;
 					break;
 					case "Arrow":
 					case "화살":
@@ -119,7 +119,7 @@ class ClearEntities extends PluginBase implements Listener{
 
 	public function onEntitySpawn(EntitySpawnEvent $event){
 		$e = $event->getEntity();
-		if($e instanceof DroppedItem || $e instanceof Arrow) $this->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$this,"kill" ], [$e ]), $this->clearEntities->get($e instanceof Arrow ? "Arrow": "Item")*20);
+		if($e instanceof Item || $e instanceof Arrow) $this->getServer()->getScheduler()->scheduleDelayedTask(new CallbackTask([$this,"kill" ], [$e ]), $this->clearEntities->get($e instanceof Arrow ? "Arrow": "Item")*20);
 	}
 
 	public function kill($e){

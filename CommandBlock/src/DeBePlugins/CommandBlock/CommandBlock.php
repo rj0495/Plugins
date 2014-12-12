@@ -273,12 +273,12 @@ class CommandBlock extends PluginBase implements Listener{
 			if($chat){
 				$p->sendMessage($cmd);
 			}else{
-				$ev = $console ? new ServerCommandEvent(new ConsoleCommandSender(), "/" . $cmd) : new PlayerCommandPreprocessEvent($p, "/" . $cmd);
+				$ev = $console ? new ServerCommandEvent(new ConsoleCommandSender(),$cmd) : new PlayerCommandPreprocessEvent($p, "/" . $cmd);
 				$this->getServer()->getPluginManager()->callEvent($ev);
 				if(!$ev->isCancelled()){
 					$op = $op && !$p->isOp() && !$console;
 					if($op) $p->setOp(true);
-					if($ev instanceof ServerCommandEvent) $this->getServer()->dispatchCommand(new ConsoleCommandSender(), substr($ev->getCommand(), 1));
+					if($ev instanceof ServerCommandEvent) $this->getServer()->dispatchCommand(new ConsoleCommandSender(), $ev->getCommand());
 					else $this->getServer()->dispatchCommand($p, substr($ev->getMessage(), 1));
 					if($op) $p->setOp(false);
 				}
